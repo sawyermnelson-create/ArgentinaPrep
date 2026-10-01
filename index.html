@@ -133,7 +133,7 @@
   <div class="sub">Buenos Aires · El Chaltén · Bariloche</div>
   <h1>¡Che, nos vamos!</h1>
   <div class="count" id="count"></div>
-  <div class="tlabel">⏳ hasta el sábado 17, 11pm ✨</div>
+  <div class="tlabel">✈️ hasta el despegue · jueves 15, 11pm</div>
   <div class="timer" id="timer"></div>
 </div>
 <div class="bar">
@@ -176,7 +176,7 @@ function countdown() {
   const today = new Date(); today.setHours(0,0,0,0);
   const day = 864e5, el = document.getElementById("count");
   const total = Math.round((RETURN - DEPART) / day) + 1;
-  if (today < DEPART) { const n = Math.round((DEPART - today) / day); el.innerHTML = `<b>${n}</b> ${n === 1 ? "día" : "días"} para Buenos Aires`; }
+  if (today < DEPART) el.style.display = "none";
   else if (today <= RETURN) el.innerHTML = `Día <b>${Math.round((today - DEPART) / day) + 1}</b> de ${total}`;
   else el.innerHTML = "¡Qué viaje! 🧉";
 }
@@ -329,12 +329,12 @@ document.querySelector(".sol g").innerHTML = `<circle r="16"/>` + Array.from({ l
 const title = document.querySelector(".hero h1");
 title.onclick = () => { title.classList.remove("wiggle"); void title.offsetWidth; title.classList.add("wiggle"); confetti(30); };
 
-// Live countdown to Sat Oct 17, 11pm Buenos Aires time (UTC-3)
-const BIG_NIGHT = Date.UTC(2026, 9, 18, 2, 0, 0);
+// Live countdown to takeoff: Thu Oct 15, 11pm phone-local time
+const BIG_NIGHT = new Date(2026, 9, 15, 23, 0, 0).getTime();
 let lastT = [];
 function tickTimer() {
   const el = document.getElementById("timer"), ms = BIG_NIGHT - Date.now();
-  if (ms <= 0) { el.innerHTML = `<div class="plate" style="--r:-2deg;padding:8px 14px"><b>¡Es ahora! 🎉</b></div>`; return; }
+  if (ms <= 0) { document.querySelector(".tlabel").style.display = "none"; el.innerHTML = `<div class="plate" style="--r:-2deg;padding:8px 14px"><b>¡Nos fuimos! ✈️</b></div>`; return; }
   const v = [Math.floor(ms / 864e5), Math.floor(ms / 36e5) % 24, Math.floor(ms / 6e4) % 60, Math.floor(ms / 1e3) % 60];
   const lab = ["días", "horas", "min", "seg"], rot = ["-3deg", "2deg", "-1.5deg", "3deg"];
   el.innerHTML = v.map((n, i) => `<div class="plate ${lastT[i] !== undefined && lastT[i] !== n ? "tick" : ""}" style="--r:${rot[i]}"><b>${String(n).padStart(2, "0")}</b><i>${lab[i]}</i></div>`).join("");
