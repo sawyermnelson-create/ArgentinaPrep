@@ -1,66 +1,160 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#74acdf">
+<meta name="theme-color" content="#1B2340">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json">
-<title>¡Che, Argentina!</title>
+<link rel="icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;6..96,900&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<title>¡Che, nos vamos!</title>
 <style>
-  :root { --sky:#74acdf; --sun:#f6b40e; --ink:#1d2b3a; --mute:#6b7a89; --bg:#f5f8fb; --ok:#2e9e5b; --bad:#d64545; }
-  * { box-sizing:border-box; }
-  body { margin:0; font:16px/1.45 -apple-system,system-ui,sans-serif; color:var(--ink); background:var(--bg); }
-  header { background:var(--sky); color:#fff; padding:14px 16px calc(10px); position:sticky; top:0; z-index:5; }
-  header h1 { margin:0; font-size:20px; }
-  @media (max-width:400px) { header h1 { font-size:17px; } .users button { padding:5px 9px; } }
-  .row { display:flex; gap:8px; align-items:center; justify-content:space-between; }
-  .users button, nav button { border:0; border-radius:20px; padding:6px 12px; font-size:14px; background:rgba(255,255,255,.3); color:#fff; }
-  .users button.on { background:#fff; color:var(--sky); font-weight:600; }
-  nav { display:flex; gap:6px; margin-top:10px; }
-  nav button.on { background:var(--sun); color:var(--ink); font-weight:600; }
-  main { padding:16px; max-width:640px; margin:0 auto; }
-  .card { background:#fff; border-radius:14px; padding:14px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
-  .day { display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
-  .day.done { opacity:.6; }
-  .badge { font-size:13px; color:var(--mute); }
-  .tip { background:#fff8e1; border-left:4px solid var(--sun); }
-  .phrase { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid #eef2f6; cursor:pointer; }
-  .phrase:last-child { border-bottom:0; }
-  .es { font-weight:600; } .en { color:var(--mute); font-size:14px; } .pr { color:var(--sky); font-size:13px; font-style:italic; }
-  .spk { font-size:20px; }
-  .btn { display:block; width:100%; border:0; border-radius:12px; padding:12px; font-size:16px; margin-top:8px; background:var(--sky); color:#fff; font-weight:600; }
-  .btn.alt { background:#e8eef4; color:var(--ink); }
-  .btn.ok { background:var(--ok); } .btn.bad { background:var(--bad); }
-  .flash { text-align:center; padding:30px 14px; min-height:170px; }
-  .flash .es { font-size:22px; }
-  .opt { display:block; width:100%; text-align:left; border:2px solid #e8eef4; background:#fff; border-radius:12px; padding:10px 12px; margin-top:8px; font-size:15px; }
-  .opt.right { border-color:var(--ok); background:#eaf7ef; } .opt.wrong { border-color:var(--bad); background:#fdecec; }
-  .they { font-size:17px; margin:4px 0 6px; }
-  .note { font-size:13px; color:var(--mute); margin-top:8px; }
-  .steps { display:flex; gap:6px; margin-bottom:12px; }
-  .steps span { flex:1; height:6px; border-radius:3px; background:#dfe6ee; } .steps span.on { background:var(--sun); }
-  input[type=search] { width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d5dde6; font-size:16px; margin-bottom:12px; }
-  h2 { margin:6px 0 10px; font-size:19px; } h3 { margin:0 0 4px; font-size:16px; }
-  .back { background:none; border:0; color:var(--sky); font-size:15px; padding:0 0 10px; }
+  :root {
+    --azulejo:#F5F8FA; --tinta:#1B2340; --rojo:#C8102E; --oro:#E3A72F; --verde:#1F6B4A; --glaciar:#9ED8E6;
+    --mute:#5d6680; --line:#dfe5ec;
+    --display:"Bodoni Moda", Didot, "Times New Roman", serif;
+    --body:"Public Sans", -apple-system, system-ui, sans-serif;
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { margin:0; font:16px/1.5 var(--body); color:var(--tinta); background:var(--azulejo); }
+  button { font-family:inherit; color:inherit; cursor:pointer; }
+
+  /* Hero — the one ornament moment */
+  .hero { background:var(--tinta); color:#fff; text-align:center; padding:28px 20px 30px; position:relative; overflow:hidden; }
+  .hero .frame { position:absolute; top:10px; left:10px; width:calc(100% - 20px); height:calc(100% - 20px); pointer-events:none; }
+  .hero h1 { font-family:var(--display); font-weight:900; font-size:44px; line-height:1.05; margin:6px 0 8px; text-shadow:3px 3px 0 var(--oro); letter-spacing:-.5px; }
+  .hero .count { font-family:var(--display); font-weight:700; font-size:20px; }
+  .hero .count b { color:var(--oro); font-size:28px; }
+  .hero .sub { font-size:13px; letter-spacing:.12em; text-transform:uppercase; opacity:.75; }
+
+  /* Bar: user + tabs */
+  .bar { position:sticky; top:0; z-index:5; background:var(--azulejo); border-bottom:1px solid var(--line); padding:10px 16px; display:flex; justify-content:space-between; gap:8px; }
+  .seg { display:flex; border:1.5px solid var(--tinta); border-radius:8px; overflow:hidden; }
+  .seg button { border:0; background:none; padding:6px 12px; font-size:14px; font-weight:600; }
+  .seg button.on { background:var(--rojo); color:#fff; }
+
+  main { padding:16px; max-width:560px; margin:0 auto; }
+  h2 { font-family:var(--display); font-weight:900; font-size:28px; line-height:1.15; margin:4px 0 12px; }
+  .eyebrow { font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--mute); font-weight:600; }
+  .back { background:none; border:0; color:var(--rojo); font-weight:600; padding:0 0 12px; font-size:15px; }
+
+  /* Day list: city → steppe */
+  .section { margin:18px 0 8px; }
+  .city { background-image:linear-gradient(rgba(27,35,64,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(27,35,64,.035) 1px, transparent 1px); background-size:22px 22px; padding:2px 0; }
+  .day { display:flex; align-items:center; gap:14px; width:100%; text-align:left; background:#fff; border:1.5px solid var(--tinta); border-radius:4px; padding:12px 14px; margin:8px 0; }
+  .day .n { font-family:var(--display); font-weight:900; font-size:28px; width:34px; text-align:center; color:var(--rojo); }
+  .day .t { font-weight:700; font-size:16px; }
+  .day .p { font-size:13px; color:var(--mute); }
+  .day .ck { margin-left:auto; color:var(--verde); font-weight:700; }
+  .day.done { border-color:var(--verde); }
+  .day.done .n { color:var(--verde); }
+  .steppe { background:var(--glaciar); margin:22px -16px; padding:26px 16px 30px; }
+  .steppe .day { border-color:transparent; padding:18px 16px; margin:14px 0; }
+  .steppe .day .n { color:var(--tinta); }
+  .note-box { border-left:3px solid var(--oro); background:#fff; padding:10px 14px; margin:10px 0 14px; font-size:15px; }
+
+  /* Phrase cards with filete corners */
+  .fcard { position:relative; background:#fff; padding:18px 20px; margin:10px 0; }
+  .fcard::before { content:""; position:absolute; inset:0; pointer-events:none; background:var(--corners) no-repeat; background-size:30px 30px; background-position:top left, top right, bottom left, bottom right; }
+  .phrase { display:flex; justify-content:space-between; gap:10px; width:100%; text-align:left; border:0; background:none; padding:0; }
+  .es { font-family:var(--display); font-weight:700; font-size:20px; line-height:1.25; }
+  .en { font-size:14px; color:var(--mute); margin-top:2px; }
+  .pr { font-size:13px; color:var(--rojo); margin-top:2px; }
+  .spk { font-size:18px; opacity:.6; }
+
+  .btn { display:block; width:100%; border:0; border-radius:6px; padding:14px; font-size:16px; font-weight:700; margin-top:10px; background:var(--rojo); color:#fff; }
+  .btn.alt { background:transparent; border:1.5px solid var(--tinta); color:var(--tinta); }
+  .btn.ok { background:var(--verde); }
+
+  .steps { display:flex; gap:6px; margin-bottom:14px; }
+  .steps span { flex:1; height:5px; background:var(--line); }
+  .steps span.on { background:var(--rojo); }
+
+  /* Flip card */
+  .flip { perspective:900px; height:220px; margin:12px 0; }
+  .flip-in { position:relative; width:100%; height:100%; transition:transform .45s; transform-style:preserve-3d; }
+  .flip.on .flip-in { transform:rotateY(180deg); }
+  .face { position:absolute; inset:0; backface-visibility:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:20px; }
+  .face.back { transform:rotateY(180deg); }
+  .face .es { font-size:28px; }
+  .face .en { font-size:18px; color:var(--tinta); }
+
+  /* Matching game */
+  .match { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+  .tile { min-height:54px; border:1.5px solid var(--tinta); background:#fff; border-radius:6px; padding:8px; font-size:15px; transition:transform .15s, opacity .3s; }
+  .tile.es-t { font-family:var(--display); font-weight:700; font-size:17px; }
+  .tile.sel { border-color:var(--rojo); box-shadow:inset 0 0 0 2px var(--rojo); }
+  .tile.gone { border-color:var(--verde); color:var(--verde); opacity:.35; pointer-events:none; }
+  .tile.bad { animation:shake .3s; border-color:var(--rojo); }
+  @keyframes shake { 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+  /* Conversation */
+  .opt { display:block; width:100%; text-align:left; border:1.5px solid var(--line); background:#fff; border-radius:6px; padding:12px 14px; margin-top:8px; font-size:15px; }
+  .opt.right { border-color:var(--verde); background:#e6f2ec; }
+  .opt.wrong { border-color:var(--rojo); background:#fbe8eb; }
+  .they { width:100%; text-align:left; border:0; background:none; padding:0; margin:6px 0 4px; }
+  .small { font-size:13px; color:var(--mute); margin-top:8px; }
+
+  input[type=search] { width:100%; padding:12px 14px; border-radius:6px; border:1.5px solid var(--tinta); font:16px var(--body); margin-bottom:6px; background:#fff; }
+  .done-hero { text-align:center; padding:30px 10px; }
+  .done-hero .big { font-family:var(--display); font-weight:900; font-size:44px; text-shadow:3px 3px 0 var(--oro); }
+  @media (max-width:380px) { .hero h1 { font-size:36px; } }
 </style>
 </head>
 <body>
-<header>
-  <div class="row"><h1>¡Che, Argentina! 🇦🇷</h1><div class="users" id="users"></div></div>
-  <nav><button data-tab="lessons">Lessons</button><button data-tab="cheat">Cheat sheet</button></nav>
-</header>
+<div class="hero">
+  <svg class="frame" id="frame" preserveAspectRatio="none"></svg>
+  <div class="sub">Buenos Aires · El Chaltén · Bariloche</div>
+  <h1>¡Che, nos vamos!</h1>
+  <div class="count" id="count"></div>
+</div>
+<div class="bar">
+  <div class="seg" id="tabs"><button data-tab="lessons">Lecciones</button><button data-tab="cheat">Machete</button></div>
+  <div class="seg" id="users"></div>
+</div>
 <main id="app"></main>
 <script src="content.js"></script>
 <script>
 const USERS = ["Sawyer", "Hannah"];
-const $ = (h) => { const d = document.createElement("div"); d.innerHTML = h; return d; };
+const DEPART = new Date(2026, 9, 15), RETURN = new Date(2026, 9, 26);
+const PATAGONIA = [11, 12];
 const app = document.getElementById("app");
 let user = localStorage.getItem("user") || USERS[0];
 let tab = "lessons";
 const key = () => "progress:" + user;
 const prog = () => JSON.parse(localStorage.getItem(key()) || "{}");
 const saveProg = (p) => localStorage.setItem(key(), JSON.stringify(p));
+const esc = (s) => s.replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const shuffle = (a) => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(x => x[1]);
+
+// Filete corner scroll: one curl + leaf, mirrored into four corners
+function corner(fx, fy) {
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><g transform='translate(${fx ? 40 : 0},${fy ? 40 : 0}) scale(${fx ? -1 : 1},${fy ? -1 : 1})' fill='none' stroke-linecap='round'><path d='M3 38 V12 Q3 3 12 3 H38' stroke='%231B2340' stroke-width='2'/><path d='M8 30 Q8 8 30 8' stroke='%23C8102E' stroke-width='2'/><path d='M14 14 q6 -4 9 2 q-4 4 -9 -2z' fill='%231F6B4A'/><circle cx='12' cy='12' r='2.6' fill='%23E3A72F'/></g></svg>`;
+  return `url("data:image/svg+xml,${svg.replace(/</g, "%3C").replace(/>/g, "%3E").replace(/"/g, "'")}")`;
+}
+document.documentElement.style.setProperty("--corners", [corner(0,0), corner(1,0), corner(0,1), corner(1,1)].join(","));
+
+// Hero frame: gold rule with scrolls at each corner and a ribbon flourish top/bottom
+function drawFrame() {
+  const f = document.getElementById("frame"), w = f.clientWidth, h = f.clientHeight;
+  f.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  const c = (x, y, sx, sy) => `<g transform="translate(${x},${y}) scale(${sx},${sy})"><path d="M0 34 V14 Q0 0 14 0 H34" stroke="#E3A72F" stroke-width="2" fill="none"/><path d="M8 26 Q8 8 26 8" stroke="#C8102E" stroke-width="2" fill="none"/><path d="M12 12 q8 -6 12 2 q-6 6 -12 -2z" fill="#1F6B4A"/><circle cx="10" cy="10" r="3" fill="#E3A72F"/></g>`;
+  const flourish = (y, s) => `<g transform="translate(${w/2},${y}) scale(1,${s})"><path d="M-40 0 q20 -10 40 0 q20 10 40 0" stroke="#E3A72F" stroke-width="1.5" fill="none"/><circle r="3" fill="#C8102E"/></g>`;
+  f.innerHTML = `<rect x="4" y="4" width="${w-8}" height="${h-8}" fill="none" stroke="#E3A72F" stroke-width=".8" opacity=".5"/>` +
+    c(0,0,1,1) + c(w,0,-1,1) + c(0,h,1,-1) + c(w,h,-1,-1) + flourish(4, 1) + flourish(h-4, -1);
+}
+
+function countdown() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const day = 864e5, el = document.getElementById("count");
+  const total = Math.round((RETURN - DEPART) / day) + 1;
+  if (today < DEPART) { const n = Math.round((DEPART - today) / day); el.innerHTML = `<b>${n}</b> ${n === 1 ? "día" : "días"} para Buenos Aires`; }
+  else if (today <= RETURN) el.innerHTML = `Día <b>${Math.round((today - DEPART) / day) + 1}</b> de ${total}`;
+  else el.innerHTML = "¡Qué viaje! 🧉";
+}
 
 // Speech: prefer Argentine voice, then any Spanish voice
 let voice = null;
@@ -72,64 +166,84 @@ if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged 
 function say(text) {
   if (!("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text.replace(/[…—]/g, " "));
+  const u = new SpeechSynthesisUtterance(text.replace(/[…—\/]/g, " "));
   u.lang = voice ? voice.lang : "es-AR"; if (voice) u.voice = voice; u.rate = 0.85;
   speechSynthesis.speak(u);
 }
-const esc = (s) => s.replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
-const phraseRow = ([es, en, pr]) => `<div class="phrase" data-say="${esc(es)}"><div><div class="es">${es}</div><div class="en">${en}</div><div class="pr">${pr}</div></div><div class="spk">🔊</div></div>`;
-function bindSay(root) { root.querySelectorAll("[data-say]").forEach(el => el.onclick = () => say(el.dataset.say)); }
+const phraseCard = ([es, en, pr]) => `<div class="fcard"><button class="phrase" data-say="${esc(es)}"><div><div class="es">${es}</div><div class="en">${en}</div><div class="pr">${pr}</div></div><div class="spk">🔊</div></button></div>`;
+const bindSay = (root) => root.querySelectorAll("[data-say]").forEach(el => el.onclick = () => say(el.dataset.say));
 
-function renderHeader() {
+function renderBar() {
   document.getElementById("users").innerHTML = USERS.map(u => `<button class="${u === user ? "on" : ""}" data-u="${u}">${u}</button>`).join("");
   document.querySelectorAll("[data-u]").forEach(b => b.onclick = () => { user = b.dataset.u; localStorage.setItem("user", user); render(); });
-  document.querySelectorAll("nav button").forEach(b => { b.classList.toggle("on", b.dataset.tab === tab); b.onclick = () => { tab = b.dataset.tab; render(); }; });
+  document.querySelectorAll("[data-tab]").forEach(b => { b.classList.toggle("on", b.dataset.tab === tab); b.onclick = () => { tab = b.dataset.tab; render(); }; });
 }
-
-function render() {
-  renderHeader(); window.scrollTo(0, 0);
-  tab === "lessons" ? renderList() : renderCheat();
-}
+function render() { renderBar(); window.scrollTo(0, 0); tab === "lessons" ? renderList() : renderCheat(); }
 
 function renderList() {
   const p = prog();
   const done = COURSE.filter(d => p[d.day]).length;
   const next = COURSE.find(d => !p[d.day]);
-  app.innerHTML = `<div class="card"><h3>Hola, ${user}! 👋</h3><div class="badge">${done} of ${COURSE.length} days done${next ? ` · Up next: Day ${next.day}` : " · ¡Listo! 🎉"}</div></div>` +
-    COURSE.map(d => `<div class="card day ${p[d.day] ? "done" : ""}" data-day="${d.day}"><div><div class="badge">Day ${d.day} · ${d.place}</div><h3>${d.title}</h3></div><div>${p[d.day] ? "✅" : "›"}</div></div>`).join("");
+  const row = (d) => `<button class="day ${p[d.day] ? "done" : ""}" data-day="${d.day}"><span class="n">${d.day}</span><span><div class="t">${d.title}</div><div class="p">${d.place}</div></span><span class="ck">${p[d.day] ? "✓" : ""}</span></button>`;
+  const city = COURSE.filter(d => !PATAGONIA.includes(d.day) && d.day < 13), south = COURSE.filter(d => PATAGONIA.includes(d.day)), end = COURSE.filter(d => d.day >= 13);
+  app.innerHTML = `<div class="eyebrow">Hola, ${user}</div><h2>${done} de ${COURSE.length} lecciones</h2>` +
+    (next ? `<button class="btn" data-day="${next.day}">Seguir: Día ${next.day} →</button>` : `<div class="note-box">¡Listo! Todo hecho. Use the Machete during the trip.</div>`) +
+    `<div class="section"><div class="eyebrow">Buenos Aires & everywhere</div><div class="city">${city.map(row).join("")}</div></div>` +
+    `<div class="steppe"><div class="eyebrow">Patagonia</div>${south.map(row).join("")}</div>` +
+    `<div class="section"><div class="eyebrow">Final days</div>${end.map(row).join("")}</div>`;
   app.querySelectorAll("[data-day]").forEach(el => el.onclick = () => lesson(+el.dataset.day));
 }
 
-// Lesson flow: 1 phrases → 2 flashcards → 3 conversation → done
+// Lesson flow: words → phrases → flashcards → conversation → done
 function lesson(n) {
   const d = COURSE.find(x => x.day === n);
-  const steps = (i) => `<div class="steps">${[0,1,2].map(k => `<span class="${k <= i ? "on" : ""}"></span>`).join("")}</div>`;
-  const top = (i) => `<button class="back" id="back">‹ All days</button>${steps(i)}<div class="badge">Day ${d.day} · ${d.place}</div><h2>${d.title}</h2>`;
-  const wireBack = () => app.querySelector("#back").onclick = render;
+  const top = (i) => `<button class="back" id="back">‹ Lecciones</button><div class="steps">${[0,1,2,3].map(k => `<span class="${k <= i ? "on" : ""}"></span>`).join("")}</div><div class="eyebrow">Día ${d.day} · ${d.place}</div><h2>${d.title}</h2>`;
+  const wire = () => { app.querySelector("#back").onclick = render; window.scrollTo(0, 0); };
+
+  function words() {
+    const pairs = d.words.map((w, i) => ({ es: w[0], en: w[1], i }));
+    let left = pairs.length, sel = null;
+    app.innerHTML = top(0) + `<div class="eyebrow">Palabras — tap a Spanish word, then its English match</div>
+      <div class="match"><div>${shuffle(pairs).map(w => `<button class="tile es-t" data-i="${w.i}" data-side="es" style="width:100%;margin-bottom:10px">${w.es}</button>`).join("")}</div>
+      <div>${shuffle(pairs).map(w => `<button class="tile" data-i="${w.i}" data-side="en" style="width:100%;margin-bottom:10px">${w.en}</button>`).join("")}</div></div>
+      <div id="wnext"></div>`;
+    wire();
+    const finish = () => app.querySelector("#wnext").innerHTML = `<button class="btn ok" id="go">¡Bien! Next: frases →</button>`, go = () => app.querySelector("#go").onclick = phrases;
+    app.querySelectorAll(".tile").forEach(t => t.onclick = () => {
+      if (t.dataset.side === "es") say(pairs[t.dataset.i].es);
+      if (!sel || sel.dataset.side === t.dataset.side) { if (sel) sel.classList.remove("sel"); sel = t; t.classList.add("sel"); return; }
+      if (sel.dataset.i === t.dataset.i) {
+        [sel, t].forEach(x => { x.classList.remove("sel"); x.classList.add("gone"); });
+        if (--left === 0) { finish(); go(); }
+      } else {
+        [sel, t].forEach(x => { x.classList.remove("sel"); x.classList.add("bad"); setTimeout(() => x.classList.remove("bad"), 320); });
+      }
+      sel = null;
+    });
+  }
 
   function phrases() {
-    app.innerHTML = top(0) + `<div class="card tip">💡 ${d.tip}</div><div class="card">${d.phrases.map(phraseRow).join("")}</div><button class="btn" id="go">Next: flashcards →</button>`;
-    wireBack(); bindSay(app); app.querySelector("#go").onclick = flash;
+    app.innerHTML = top(1) + `<div class="note-box">💡 ${d.tip}</div>${d.phrases.map(phraseCard).join("")}<button class="btn" id="go">Next: tarjetas →</button>`;
+    wire(); bindSay(app); app.querySelector("#go").onclick = flash;
   }
 
   function flash() {
-    let queue = d.phrases.map((_, i) => i).sort(() => Math.random() - 0.5);
-    let shown = false, misses = 0;
+    let queue = shuffle(d.phrases.map((_, i) => i));
     const draw = () => {
       if (!queue.length) return convo();
       const [es, en, pr] = d.phrases[queue[0]];
-      app.innerHTML = top(1) + `<div class="badge">${queue.length} left — say it out loud before flipping</div>
-        <div class="card flash"><div class="en" style="font-size:18px">${en}</div>${shown ? `<div class="es" style="margin-top:14px">${es}</div><div class="pr">${pr}</div>` : ""}</div>` +
-        (shown ? `<button class="btn ok" id="ok">Got it ✓</button><button class="btn bad" id="again">Again ↺</button>` : `<button class="btn" id="flip">Show Spanish</button>`) +
-        `<button class="btn alt" id="skip">Skip to conversation →</button>`;
-      wireBack();
+      app.innerHTML = top(2) + `<div class="eyebrow">${queue.length} left — tap to flip, say it out loud</div>
+        <div class="flip" id="card"><div class="flip-in"><div class="face fcard"><div class="es">${es}</div><div class="small">tap to flip</div></div>
+        <div class="face fcard back"><div class="en">${en}</div><div class="pr" style="margin-top:8px">${pr}</div><div class="small">🔊 tap to hear again</div></div></div></div>
+        <button class="btn ok" id="ok">Lo sé ✓</button><button class="btn alt" id="again">Otra vez ↺</button>
+        <button class="btn alt" id="skip" style="border:0;color:var(--mute)">Skip to conversación →</button>`;
+      wire();
+      const card = app.querySelector("#card");
+      card.onclick = () => { card.classList.toggle("on"); if (card.classList.contains("on")) say(es); };
       app.querySelector("#skip").onclick = convo;
-      if (!shown) app.querySelector("#flip").onclick = () => { shown = true; say(es); draw(); };
-      else {
-        app.querySelector("#ok").onclick = () => { queue.shift(); shown = false; draw(); };
-        // Missed cards go back 3 spots so they reappear soon
-        app.querySelector("#again").onclick = () => { const c = queue.shift(); queue.splice(Math.min(3, queue.length), 0, c); misses++; shown = false; draw(); };
-      }
+      app.querySelector("#ok").onclick = () => { queue.shift(); draw(); };
+      // Missed cards go back 3 spots so they reappear soon
+      app.querySelector("#again").onclick = () => { const c = queue.shift(); queue.splice(Math.min(3, queue.length), 0, c); draw(); };
     };
     draw();
   }
@@ -139,18 +253,17 @@ function lesson(n) {
     const draw = () => {
       if (i >= d.dialogue.length) return finish();
       const q = d.dialogue[i];
-      app.innerHTML = top(2) + `<div class="badge">Conversation ${i + 1} of ${d.dialogue.length} — pick the best reply</div>
-        <div class="card"><div class="badge">They say:</div><div class="they es" data-say="${esc(q.they)}">🔊 ${q.they}</div>
-        ${q.options.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join("")}<div id="fb"></div></div>`;
-      wireBack(); bindSay(app); say(q.they);
+      app.innerHTML = top(3) + `<div class="eyebrow">Conversación ${i + 1} de ${d.dialogue.length} — pick the best reply</div>
+        <div class="fcard"><div class="small" style="margin:0">They say:</div><button class="they" data-say="${esc(q.they)}"><span class="es">🔊 ${q.they}</span></button></div>
+        ${q.options.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join("")}<div id="fb"></div>`;
+      wire(); bindSay(app); say(q.they);
       app.querySelectorAll(".opt").forEach(b => b.onclick = () => {
         const k = +b.dataset.k;
-        if (k === q.answer) {
-          b.classList.add("right"); say(q.options[k]);
-          app.querySelector("#fb").innerHTML = (q.note ? `<div class="note">📝 ${q.note}</div>` : "") + `<button class="btn" id="nx">Next →</button>`;
-          app.querySelectorAll(".opt").forEach(x => x.disabled = true);
-          app.querySelector("#nx").onclick = () => { i++; draw(); };
-        } else b.classList.add("wrong");
+        if (k !== q.answer) return b.classList.add("wrong");
+        b.classList.add("right"); say(q.options[k]);
+        app.querySelectorAll(".opt").forEach(x => x.disabled = true);
+        app.querySelector("#fb").innerHTML = (q.note ? `<div class="note-box">📝 ${q.note}</div>` : "") + `<button class="btn" id="nx">Next →</button>`;
+        app.querySelector("#nx").onclick = () => { i++; draw(); };
       });
     };
     draw();
@@ -159,30 +272,32 @@ function lesson(n) {
   function finish() {
     const p = prog(); p[d.day] = new Date().toISOString().slice(0, 10); saveProg(p);
     const next = COURSE.find(x => x.day === n + 1);
-    app.innerHTML = `<div class="card" style="text-align:center;padding:30px"><div style="font-size:48px">🎉</div><h2>¡Muy bien, ${user}!</h2><div class="badge">Day ${d.day} complete</div></div>` +
-      (next ? `<button class="btn" id="nxt">Day ${next.day}: ${next.title} →</button>` : "") + `<button class="btn alt" id="home">All days</button>`;
+    app.innerHTML = `<div class="done-hero"><div class="big">¡Muy bien!</div><div class="eyebrow" style="margin-top:10px">${user} · Día ${d.day} hecho</div></div>` +
+      (next ? `<button class="btn" id="nxt">Día ${next.day}: ${next.title} →</button>` : "") + `<button class="btn alt" id="home">Lecciones</button>`;
+    window.scrollTo(0, 0);
     app.querySelector("#home").onclick = render;
     if (next) app.querySelector("#nxt").onclick = () => lesson(next.day);
   }
 
-  phrases();
+  words();
 }
 
 function renderCheat() {
-  app.innerHTML = `<input type="search" id="q" placeholder="Search English or Spanish…"><div id="list"></div>`;
+  app.innerHTML = `<div class="eyebrow">Machete = cheat sheet</div><h2>Frases por lugar</h2><input type="search" id="q" placeholder="Buscar… search English or Spanish"><div id="list"></div>`;
   const list = app.querySelector("#list");
   const draw = (q = "") => {
     q = q.toLowerCase();
     list.innerHTML = COURSE.map(d => {
       const ps = d.phrases.filter(p => !q || (p[0] + " " + p[1]).toLowerCase().includes(q));
-      return ps.length ? `<div class="card"><h3>${d.title}</h3><div class="badge">${d.place}</div>${ps.map(phraseRow).join("")}</div>` : "";
-    }).join("") || `<div class="badge">No matches</div>`;
+      return ps.length ? `<div class="section"><div class="eyebrow">${d.place}</div><h2 style="font-size:20px;margin:2px 0 4px">${d.title}</h2>${ps.map(phraseCard).join("")}</div>` : "";
+    }).join("") || `<div class="small">No matches</div>`;
     bindSay(list);
   };
   app.querySelector("#q").oninput = (e) => draw(e.target.value);
   draw();
 }
 
+countdown(); drawFrame(); addEventListener("resize", drawFrame);
 render();
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
 </script>

@@ -1,9 +1,11 @@
 // 14-day Rioplatense Spanish course. Each phrase: [spanish, english, pronunciation]
+// words: [spanish, english] pairs for the matching game.
 // Dialogue: they = what the local says; options = your replies; answer = index of best reply.
 const COURSE = [
   {
     day: 1, title: "Survival & money", place: "Everywhere",
     tip: "You know hola/gracias/numbers — this is the stuff that rescues you. Argentines speak fast; asking them to slow down is normal. Cash ('efectivo') often gets a discount.",
+    words: [["dinero / plata", "money"], ["efectivo", "cash"], ["tarjeta", "card"], ["precio", "price"], ["caro", "expensive"], ["barato", "cheap"], ["cambio", "change / exchange"], ["ayuda", "help"]],
     phrases: [
       ["No entiendo", "I don't understand", "noh en-TYEN-doh"],
       ["Más despacio, por favor", "Slower, please", "mahs des-PAH-syoh, por fah-VOR"],
@@ -15,6 +17,7 @@ const COURSE = [
       ["¿Aceptan tarjeta?", "Do you take card?", "ah-SEP-tahn tar-HEH-tah?"],
       ["¿Hay descuento en efectivo?", "Is there a cash discount?", "eye des-KWEN-toh en eh-fek-TEE-voh?"],
       ["¿Todo bien? — Todo bien, ¿y vos?", "All good? — All good, and you?", "TOH-doh BYEN? ee VOHS?"],
+      ["¿Me lo repetís?", "Can you repeat that?", "meh loh rreh-peh-TEES?"],
     ],
     dialogue: [
       { they: "¡Buenas! ¿Todo bien?", options: ["Todo bien, gracias. ¿Y vos?", "De nada.", "Chau."], answer: 0, note: "'Vos' replaces 'tú' in Argentina." },
@@ -25,6 +28,7 @@ const COURSE = [
   {
     day: 2, title: "Café culture", place: "Café (Buenos Aires)",
     tip: "At Café Tortoni (BA's grand 1858 café) or Argot, order a 'cortado' (espresso + a little milk) with 'medialunas' (small sweet croissants). Nobody rushes you — ask for the bill when you're ready.",
+    words: [["café", "coffee"], ["leche", "milk"], ["azúcar", "sugar"], ["agua", "water"], ["medialuna", "croissant"], ["tostado", "toasted sandwich"], ["mesa", "table"], ["taza", "cup"]],
     phrases: [
       ["Un café con leche, por favor", "A coffee with milk, please", "oon kah-FEH kohn LEH-cheh"],
       ["Un cortado", "Espresso with a splash of milk", "oon kor-TAH-doh"],
@@ -36,6 +40,7 @@ const COURSE = [
       ["Un agua sin gas", "A still water", "oon AH-gwah seen gahs"],
       ["¿Tienen wifi?", "Do you have wifi?", "TYEH-nen WEE-fee?"],
       ["La cuenta, por favor", "The bill, please", "lah KWEN-tah, por fah-VOR"],
+      ["Un tostado de jamón y queso", "A toasted ham & cheese sandwich", "oon tohs-TAH-doh deh hah-MOHN ee KEH-soh"],
     ],
     dialogue: [
       { they: "¡Hola! ¿Qué van a tomar?", options: ["Dos cortados y dos medialunas, por favor.", "La cuenta.", "Somos de Estados Unidos."], answer: 0, note: "'¿Qué van a tomar?' = 'What will you have (to drink)?'" },
@@ -45,6 +50,7 @@ const COURSE = [
   {
     day: 3, title: "Reading the menu", place: "Any restaurant or café",
     tip: "Menus are 'la carta'. Lunch spots often have a 'menú del día' (set lunch). Empanadas are ordered by the dozen or half dozen — 'media docena'.",
+    words: [["carne", "beef"], ["pollo", "chicken"], ["pescado", "fish"], ["queso", "cheese"], ["jamón", "ham"], ["papas", "potatoes"], ["postre", "dessert"], ["picante", "spicy"]],
     phrases: [
       ["Carne / pollo / pescado", "Beef / chicken / fish", "KAR-neh / POH-shoh / pes-KAH-doh"],
       ["Empanadas de carne / jamón y queso", "Beef / ham & cheese empanadas", "em-pah-NAH-dahs deh KAR-neh / hah-MOHN ee KEH-soh"],
@@ -65,6 +71,7 @@ const COURSE = [
   {
     day: 4, title: "Restaurant: ordering", place: "Parrilla / restaurant",
     tip: "Dinner starts late — your 7pm Don Julio reservation will be early by local standards! At a 'parrilla' (steakhouse) try 'bife de chorizo' (sirloin) and 'provoleta' (grilled cheese). Cooking: 'jugoso' = medium-rare, 'a punto' = medium.",
+    words: [["bife", "steak"], ["carta", "menu"], ["vino", "wine"], ["botella", "bottle"], ["copa", "wine glass"], ["mozo", "waiter"], ["reserva", "reservation"], ["compartir", "to share"]],
     phrases: [
       ["Tenemos una reserva a las siete", "We have a reservation at seven", "teh-NEH-mohs OO-nah rreh-SEHR-vah ah lahs SYEH-teh"],
       ["¿Me pasás la carta?", "Can I have the menu?", "meh pah-SAHS lah KAR-tah?"],
@@ -76,6 +83,7 @@ const COURSE = [
       ["Soy vegetariano/a", "I'm vegetarian", "soy veh-heh-tah-RYAH-noh"],
       ["Soy alérgico/a a…", "I'm allergic to…", "soy ah-LEHR-hee-koh ah…"],
       ["Nada más, gracias", "Nothing else, thanks", "NAH-dah mahs, GRAH-syahs"],
+      ["¿Hay opciones sin carne?", "Are there meat-free options?", "eye ohp-SYOH-ness seen KAR-neh?"],
     ],
     dialogue: [
       { they: "Buenas noches, ¿tienen reserva?", options: ["Sí, a las siete, a nombre de Nelson.", "Jugoso.", "Nada más."], answer: 0 },
@@ -86,6 +94,7 @@ const COURSE = [
   {
     day: 5, title: "Restaurant: paying & problems", place: "Restaurant",
     tip: "Tip ('propina') about 10%, usually in cash. Some places add a 'cubierto' (cover charge) for bread — that's normal, not a tip.",
+    words: [["cuenta", "bill"], ["propina", "tip"], ["tenedor", "fork"], ["cuchillo", "knife"], ["servilleta", "napkin"], ["frío", "cold"], ["rico", "tasty"], ["pagar", "to pay"]],
     phrases: [
       ["La cuenta, por favor", "The bill, please", "lah KWEN-tah"],
       ["¿Está incluida la propina?", "Is the tip included?", "es-TAH een-kloo-EE-dah lah proh-PEE-nah?"],
@@ -106,6 +115,7 @@ const COURSE = [
   {
     day: 6, title: "Bars & nightlife", place: "Bar (Buenos Aires)",
     tip: "Try 'Fernet con Coca' (the national drink) or a 'birra' (beer). Bars fill up after midnight. El Boliche de Roberto is a tiny, old tango bar — live music, walk-in, small tables. 'Che' = 'hey', used constantly.",
+    words: [["cerveza / birra", "beer"], ["hielo", "ice"], ["trago", "cocktail / drink"], ["vaso", "glass"], ["ronda", "round"], ["música", "music"], ["noche", "night"], ["amigos", "friends"]],
     phrases: [
       ["Una birra, por favor", "A beer, please", "OO-nah BEE-rrah"],
       ["Una pinta de IPA", "A pint of IPA", "OO-nah PEEN-tah deh EE-pah"],
@@ -117,6 +127,7 @@ const COURSE = [
       ["Che, ¿qué onda?", "Hey, what's up?", "cheh, keh OHN-dah?"],
       ["¡Qué buena onda!", "So cool / great vibe", "keh BWEH-nah OHN-dah"],
       ["¿Hay lugar para dos?", "Is there room for two?", "eye loo-GAR PAH-rah dohs?"],
+      ["¿Qué trago me recomendás?", "Which cocktail do you recommend?", "keh TRAH-goh meh reh-koh-men-DAHS?"],
     ],
     dialogue: [
       { they: "Che, ¿qué onda? ¿Qué te sirvo?", options: ["Una birra y un Fernet con Coca, por favor.", "La cuenta del cubierto.", "Buen día."], answer: 0, note: "'¿Qué te sirvo?' = 'What can I get you?'" },
@@ -126,6 +137,7 @@ const COURSE = [
   {
     day: 7, title: "Shopping", place: "Shops & markets (San Telmo)",
     tip: "At San Telmo's Sunday market, friendly haggling is OK. In regular shops, prices are fixed. 'Estoy mirando' gets salespeople to leave you alone politely.",
+    words: [["tienda / negocio", "shop"], ["feria", "street market"], ["talle", "size"], ["bolsa", "bag"], ["regalo", "gift"], ["grande", "big"], ["chico", "small"], ["cuero", "leather"]],
     phrases: [
       ["Estoy mirando, gracias", "I'm just looking, thanks", "es-TOY mee-RAHN-doh"],
       ["¿Tenés esto en otro talle?", "Do you have this in another size?", "teh-NESS ESS-toh en OH-troh TAH-sheh?"],
@@ -137,6 +149,7 @@ const COURSE = [
       ["¿Tenés bolsa?", "Do you have a bag?", "teh-NESS BOHL-sah?"],
       ["¿A qué hora cierran?", "What time do you close?", "ah keh OH-rah SYEH-rrahn?"],
       ["Un kilo de… / cien gramos de…", "A kilo of… / 100 grams of…", "oon KEE-loh / syen GRAH-mohs"],
+      ["¿Es de cuero?", "Is it leather?", "ess deh KWEH-roh?"],
     ],
     dialogue: [
       { they: "Hola, ¿te puedo ayudar en algo?", options: ["Estoy mirando, gracias.", "Jugoso.", "Otra ronda."], answer: 0 },
@@ -146,6 +159,7 @@ const COURSE = [
   {
     day: 8, title: "Hotel check-in", place: "Hotel / hostel",
     tip: "Alvear Palace (BA) is formal — staff may switch to English, but greeting in Spanish is appreciated. Have your booking name ready. Ask about luggage storage ('dejar las valijas') — useful on travel days (Oct 19 & 23).",
+    words: [["habitación", "room"], ["llave", "key"], ["cama", "bed"], ["toalla", "towel"], ["desayuno", "breakfast"], ["ducha", "shower"], ["valija", "suitcase"], ["piso", "floor"]],
     phrases: [
       ["Tengo una reserva a nombre de…", "I have a reservation under…", "TEN-goh OO-nah rreh-SEHR-vah ah NOHM-breh deh…"],
       ["Para dos noches", "For two nights", "PAH-rah dohs NOH-chess"],
@@ -166,6 +180,7 @@ const COURSE = [
   {
     day: 9, title: "Getting around", place: "Streets, taxis, subte",
     tip: "In La Boca, stick to Caminito and the busy streets, and take a taxi/Uber there and back. 'Cuadra' = city block — directions are given in blocks.",
+    words: [["calle", "street"], ["cuadra", "block"], ["esquina", "corner"], ["derecha", "right"], ["izquierda", "left"], ["cerca", "near"], ["lejos", "far"], ["parada", "stop"]],
     phrases: [
       ["¿Dónde está…?", "Where is…?", "DOHN-deh es-TAH…?"],
       ["¿Cómo llego a…?", "How do I get to…?", "KOH-moh SHEH-goh ah…?"],
@@ -186,6 +201,7 @@ const COURSE = [
   {
     day: 10, title: "Travel days: airports & flights", place: "Airports (BA → El Calafate → Bariloche)",
     tip: "You have 3+ flights. Domestic flights in BA usually leave from Aeroparque (AEP), not Ezeiza (EZE) — double-check. Argentine airports use 24h time: 'trece cuarenta y cinco' = 1:45pm.",
+    words: [["vuelo", "flight"], ["aeropuerto", "airport"], ["puerta", "gate / door"], ["pasaporte", "passport"], ["equipaje", "luggage"], ["salida", "departure / exit"], ["llegada", "arrival"], ["demorado", "delayed"]],
     phrases: [
       ["¿Dónde se hace el check-in?", "Where is check-in?", "DOHN-deh seh AH-seh el check-in?"],
       ["Tenemos dos valijas", "We have two suitcases", "teh-NEH-mohs dohs vah-LEE-hahs"],
@@ -206,6 +222,7 @@ const COURSE = [
   {
     day: 11, title: "Patagonia: El Chaltén", place: "El Chaltén (trails, buses)",
     tip: "Your hikes: Laguna Torre & Las Vueltas (Oct 20), Laguna de los Tres sunrise (Oct 21). Start Los Tres in the dark — headlamp! Weather changes fast; ask locals about wind ('viento'). ATMs often run out — bring cash!",
+    words: [["sendero", "trail"], ["montaña", "mountain"], ["laguna", "lake (small)"], ["glaciar", "glacier"], ["viento", "wind"], ["lluvia", "rain"], ["amanecer", "sunrise"], ["mochila", "backpack"]],
     phrases: [
       ["¿Dónde empieza el sendero?", "Where does the trail start?", "DOHN-deh em-PYEH-sah el sen-DEH-roh?"],
       ["¿Cuántas horas son?", "How many hours is it?", "KWAHN-tahs OH-rahs sohn?"],
@@ -217,6 +234,7 @@ const COURSE = [
       ["¿Hay cajero automático?", "Is there an ATM?", "eye kah-HEH-roh ow-toh-MAH-tee-koh?"],
       ["Una vianda para llevar", "A packed lunch to go", "OO-nah VYAHN-dah PAH-rah sheh-VAR"],
       ["¡Qué lindo!", "How beautiful!", "keh LEEN-doh!"],
+      ["¿Necesito una linterna?", "Do I need a headlamp?", "neh-seh-SEE-toh OO-nah leen-TEHR-nah?"],
     ],
     dialogue: [
       { they: "Para Laguna de los Tres son unas ocho horas ida y vuelta.", options: ["¿Es difícil?", "Me lo llevo.", "Una birra."], answer: 0, note: "'Ida y vuelta' = 'round trip'." },
@@ -226,6 +244,7 @@ const COURSE = [
   {
     day: 12, title: "Patagonia: Bariloche", place: "Bariloche (Campanario, Mitre, breweries, lake)",
     tip: "Your plan: Cerro Campanario hike + chairlift down, chocolate crawl on Calle Mitre (Rapanui, Mamushka, La Chocolaterie, Benroth), breweries, tea houses, and a boat to Isla Victoria & Los Arrayanes.",
+    words: [["lago", "lake"], ["barco", "boat"], ["isla", "island"], ["bosque", "forest"], ["chocolate", "chocolate"], ["cervecería", "brewery"], ["vista", "view"], ["aerosilla", "chairlift"]],
     phrases: [
       ["¿Dónde se toma la aerosilla?", "Where do you catch the chairlift?", "DOHN-deh seh TOH-mah lah ah-eh-roh-SEE-shah?"],
       ["Solo de bajada, por favor", "Just the ride down, please", "SOH-loh deh bah-HAH-dah"],
@@ -247,6 +266,7 @@ const COURSE = [
   {
     day: 13, title: "Problems & small talk", place: "Everywhere",
     tip: "Emergency number: 911. Pharmacy = 'farmacia'. For small talk, Argentines love talking about football, food, and travel — 'Me encanta Argentina' goes a long way.",
+    words: [["farmacia", "pharmacy"], ["médico", "doctor"], ["policía", "police"], ["celular", "cell phone"], ["perdido", "lost"], ["enfermo", "sick"], ["fútbol", "football"], ["viaje", "trip"]],
     phrases: [
       ["Perdí mi celular / pasaporte", "I lost my phone / passport", "pehr-DEE mee seh-loo-LAR / pah-sah-POR-teh"],
       ["Necesito una farmacia", "I need a pharmacy", "neh-seh-SEE-toh OO-nah far-MAH-syah"],
@@ -258,6 +278,7 @@ const COURSE = [
       ["¿Sos de acá?", "Are you from here?", "sohs deh ah-KAH?"],
       ["¿De qué cuadro sos?", "Which football team do you support?", "deh keh KWAH-droh sohs?"],
       ["Mucho gusto", "Nice to meet you", "MOO-choh GOOS-toh"],
+      ["¿Me sacás una foto?", "Can you take a photo of us?", "meh sah-KAHS OO-nah FOH-toh?"],
     ],
     dialogue: [
       { they: "¿Es la primera vez que vienen a Argentina?", options: ["Sí, ¡me encanta Argentina!", "Necesito una farmacia de bife.", "Otra ronda."], answer: 0, note: "'Primera vez' = first time." },
@@ -267,6 +288,7 @@ const COURSE = [
   {
     day: 14, title: "Final review: a full night out", place: "Review",
     tip: "Today mixes everything. Then use the Cheat Sheet tab during the trip. ¡Buen viaje!",
+    words: [["hoy", "today"], ["mañana", "tomorrow / morning"], ["ayer", "yesterday"], ["ahora", "now"], ["después", "later"], ["siempre", "always"], ["nunca", "never"], ["todo", "everything"]],
     phrases: [
       ["Una mesa para dos, por favor", "A table for two, please", "OO-nah MEH-sah PAH-rah dohs"],
       ["¿Qué me recomendás?", "What do you recommend?", "keh meh reh-koh-men-DAHS?"],

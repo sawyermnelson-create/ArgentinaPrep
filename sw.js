@@ -1,5 +1,5 @@
 // Offline support: serve from network when possible, fall back to cache (for Patagonia).
-const CACHE = "che-v1";
+const CACHE = "che-v2";
 const FILES = ["./", "index.html", "content.js", "manifest.json", "icon.svg"];
 self.addEventListener("install", (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES))));
 self.addEventListener("fetch", (e) => {
