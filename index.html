@@ -101,15 +101,40 @@
   input[type=search] { width:100%; padding:12px 14px; border-radius:6px; border:1.5px solid var(--tinta); font:16px var(--body); margin-bottom:6px; background:#fff; }
   .done-hero { text-align:center; padding:30px 10px; }
   .done-hero .big { font-family:var(--display); font-weight:900; font-size:44px; text-shadow:3px 3px 0 var(--oro); }
+
+  /* Whimsy */
+  .sol { position:absolute; left:50%; top:50%; width:260px; height:260px; margin:-130px 0 0 -130px; opacity:.13; animation:spin 60s linear infinite; pointer-events:none; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .hero h1 { display:inline-block; transition:transform .2s; }
+  .hero h1.wiggle { animation:wiggle .5s; }
+  @keyframes wiggle { 25%{transform:rotate(-3deg) scale(1.04)} 75%{transform:rotate(3deg) scale(1.04)} }
+  .timer { margin:16px auto 2px; display:flex; justify-content:center; gap:8px; }
+  .plate { background:#fff; border-radius:8px; min-width:58px; padding:6px 4px 4px; box-shadow:0 3px 0 var(--oro); transform:rotate(var(--r)); }
+  .plate b { display:block; font-family:var(--display); font-weight:900; font-size:28px; line-height:1; color:var(--rojo); }
+  .plate i { font-style:normal; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta); }
+  .plate.tick b { animation:pop .35s; }
+  @keyframes pop { 40%{transform:scale(1.25)} }
+  .tlabel { font-family:var(--display); font-style:italic; font-size:16px; margin-top:8px; color:var(--glaciar); }
+  .day:active { transform:scale(.98) rotate(-.6deg); }
+  .day { transition:transform .12s; }
+  .day .emo { font-size:22px; margin-left:auto; }
+  .day .ck + .emo, .day .emo:has(+ .ck) {}
+  .tile.gone { animation:pop .35s; }
+  .confetti { position:fixed; top:-12px; width:9px; height:14px; z-index:50; pointer-events:none; animation:fall linear forwards; }
+  @keyframes fall { to { transform:translateY(105vh) rotate(720deg); } }
+  .done-hero .big { animation:wiggle .6s .1s; display:inline-block; }
   @media (max-width:380px) { .hero h1 { font-size:36px; } }
 </style>
 </head>
 <body>
 <div class="hero">
+  <svg class="sol" viewBox="-50 -50 100 100" aria-hidden="true"><g fill="#E3A72F"></g></svg>
   <svg class="frame" id="frame" preserveAspectRatio="none"></svg>
   <div class="sub">Buenos Aires · El Chaltén · Bariloche</div>
   <h1>¡Che, nos vamos!</h1>
   <div class="count" id="count"></div>
+  <div class="tlabel">⏳ hasta el sábado 17, 11pm ✨</div>
+  <div class="timer" id="timer"></div>
 </div>
 <div class="bar">
   <div class="seg" id="tabs"><button data-tab="lessons">Lecciones</button><button data-tab="cheat">Machete</button></div>
@@ -184,7 +209,7 @@ function renderList() {
   const p = prog();
   const done = COURSE.filter(d => p[d.day]).length;
   const next = COURSE.find(d => !p[d.day]);
-  const row = (d) => `<button class="day ${p[d.day] ? "done" : ""}" data-day="${d.day}"><span class="n">${d.day}</span><span><div class="t">${d.title}</div><div class="p">${d.place}</div></span><span class="ck">${p[d.day] ? "✓" : ""}</span></button>`;
+  const row = (d) => `<button class="day ${p[d.day] ? "done" : ""}" data-day="${d.day}"><span class="n">${d.day}</span><span><div class="t">${d.title}</div><div class="p">${d.place}</div></span><span class="emo">${p[d.day] ? "✅" : EMO[d.day]}</span></button>`;
   const city = COURSE.filter(d => !PATAGONIA.includes(d.day) && d.day < 13), south = COURSE.filter(d => PATAGONIA.includes(d.day)), end = COURSE.filter(d => d.day >= 13);
   app.innerHTML = `<div class="eyebrow">Hola, ${user}</div><h2>${done} de ${COURSE.length} lecciones</h2>` +
     (next ? `<button class="btn" data-day="${next.day}">Seguir: Día ${next.day} →</button>` : `<div class="note-box">¡Listo! Todo hecho. Use the Machete during the trip.</div>`) +
@@ -214,7 +239,7 @@ function lesson(n) {
       if (!sel || sel.dataset.side === t.dataset.side) { if (sel) sel.classList.remove("sel"); sel = t; t.classList.add("sel"); return; }
       if (sel.dataset.i === t.dataset.i) {
         [sel, t].forEach(x => { x.classList.remove("sel"); x.classList.add("gone"); });
-        if (--left === 0) { finish(); go(); }
+        if (--left === 0) { finish(); go(); confetti(25); }
       } else {
         [sel, t].forEach(x => { x.classList.remove("sel"); x.classList.add("bad"); setTimeout(() => x.classList.remove("bad"), 320); });
       }
@@ -270,7 +295,7 @@ function lesson(n) {
   }
 
   function finish() {
-    const p = prog(); p[d.day] = new Date().toISOString().slice(0, 10); saveProg(p);
+    const p = prog(); p[d.day] = new Date().toISOString().slice(0, 10); saveProg(p); confetti();
     const next = COURSE.find(x => x.day === n + 1);
     app.innerHTML = `<div class="done-hero"><div class="big">¡Muy bien!</div><div class="eyebrow" style="margin-top:10px">${user} · Día ${d.day} hecho</div></div>` +
       (next ? `<button class="btn" id="nxt">Día ${next.day}: ${next.title} →</button>` : "") + `<button class="btn alt" id="home">Lecciones</button>`;
@@ -296,6 +321,38 @@ function renderCheat() {
   app.querySelector("#q").oninput = (e) => draw(e.target.value);
   draw();
 }
+
+
+// Sol de Mayo behind the title: 16 alternating straight/wavy rays
+document.querySelector(".sol g").innerHTML = `<circle r="16"/>` + Array.from({ length: 16 }, (_, i) =>
+  `<path transform="rotate(${i * 22.5})" d="${i % 2 ? "M-3 -18 Q-6 -30 0 -46 Q-2 -30 3 -18z" : "M-4 -18 L0 -48 L4 -18z"}"/>`).join("");
+const title = document.querySelector(".hero h1");
+title.onclick = () => { title.classList.remove("wiggle"); void title.offsetWidth; title.classList.add("wiggle"); confetti(30); };
+
+// Live countdown to Sat Oct 17, 11pm Buenos Aires time (UTC-3)
+const BIG_NIGHT = Date.UTC(2026, 9, 18, 2, 0, 0);
+let lastT = [];
+function tickTimer() {
+  const el = document.getElementById("timer"), ms = BIG_NIGHT - Date.now();
+  if (ms <= 0) { el.innerHTML = `<div class="plate" style="--r:-2deg;padding:8px 14px"><b>¡Es ahora! 🎉</b></div>`; return; }
+  const v = [Math.floor(ms / 864e5), Math.floor(ms / 36e5) % 24, Math.floor(ms / 6e4) % 60, Math.floor(ms / 1e3) % 60];
+  const lab = ["días", "horas", "min", "seg"], rot = ["-3deg", "2deg", "-1.5deg", "3deg"];
+  el.innerHTML = v.map((n, i) => `<div class="plate ${lastT[i] !== undefined && lastT[i] !== n ? "tick" : ""}" style="--r:${rot[i]}"><b>${String(n).padStart(2, "0")}</b><i>${lab[i]}</i></div>`).join("");
+  lastT = v;
+}
+tickTimer(); setInterval(tickTimer, 1000);
+
+function confetti(n = 60) {
+  const cols = ["#C8102E", "#E3A72F", "#1F6B4A", "#9ED8E6", "#1B2340"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.cssText = `left:${Math.random() * 100}vw;background:${cols[i % 5]};animation-duration:${1.6 + Math.random() * 1.6}s;animation-delay:${Math.random() * .4}s;border-radius:${i % 3 ? "2px" : "50%"}`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3800);
+  }
+}
+const EMO = { 1:"💸", 2:"☕", 3:"🥟", 4:"🥩", 5:"🧾", 6:"🍷", 7:"🛍️", 8:"🛎️", 9:"🚕", 10:"✈️", 11:"🏔️", 12:"🍫", 13:"⚽", 14:"💃" };
 
 countdown(); drawFrame(); addEventListener("resize", drawFrame);
 render();
