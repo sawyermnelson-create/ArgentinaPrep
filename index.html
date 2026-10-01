@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#74acdf">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<title>¡Che, Argentina!</title>
+<style>
+  :root { --sky:#74acdf; --sun:#f6b40e; --ink:#1d2b3a; --mute:#6b7a89; --bg:#f5f8fb; --ok:#2e9e5b; --bad:#d64545; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:16px/1.45 -apple-system,system-ui,sans-serif; color:var(--ink); background:var(--bg); }
+  header { background:var(--sky); color:#fff; padding:14px 16px calc(10px); position:sticky; top:0; z-index:5; }
+  header h1 { margin:0; font-size:20px; }
+  @media (max-width:400px) { header h1 { font-size:17px; } .users button { padding:5px 9px; } }
+  .row { display:flex; gap:8px; align-items:center; justify-content:space-between; }
+  .users button, nav button { border:0; border-radius:20px; padding:6px 12px; font-size:14px; background:rgba(255,255,255,.3); color:#fff; }
+  .users button.on { background:#fff; color:var(--sky); font-weight:600; }
+  nav { display:flex; gap:6px; margin-top:10px; }
+  nav button.on { background:var(--sun); color:var(--ink); font-weight:600; }
+  main { padding:16px; max-width:640px; margin:0 auto; }
+  .card { background:#fff; border-radius:14px; padding:14px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+  .day { display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+  .day.done { opacity:.6; }
+  .badge { font-size:13px; color:var(--mute); }
+  .tip { background:#fff8e1; border-left:4px solid var(--sun); }
+  .phrase { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid #eef2f6; cursor:pointer; }
+  .phrase:last-child { border-bottom:0; }
+  .es { font-weight:600; } .en { color:var(--mute); font-size:14px; } .pr { color:var(--sky); font-size:13px; font-style:italic; }
+  .spk { font-size:20px; }
+  .btn { display:block; width:100%; border:0; border-radius:12px; padding:12px; font-size:16px; margin-top:8px; background:var(--sky); color:#fff; font-weight:600; }
+  .btn.alt { background:#e8eef4; color:var(--ink); }
+  .btn.ok { background:var(--ok); } .btn.bad { background:var(--bad); }
+  .flash { text-align:center; padding:30px 14px; min-height:170px; }
+  .flash .es { font-size:22px; }
+  .opt { display:block; width:100%; text-align:left; border:2px solid #e8eef4; background:#fff; border-radius:12px; padding:10px 12px; margin-top:8px; font-size:15px; }
+  .opt.right { border-color:var(--ok); background:#eaf7ef; } .opt.wrong { border-color:var(--bad); background:#fdecec; }
+  .they { font-size:17px; margin:4px 0 6px; }
+  .note { font-size:13px; color:var(--mute); margin-top:8px; }
+  .steps { display:flex; gap:6px; margin-bottom:12px; }
+  .steps span { flex:1; height:6px; border-radius:3px; background:#dfe6ee; } .steps span.on { background:var(--sun); }
+  input[type=search] { width:100%; padding:10px 12px; border-radius:10px; border:1px solid #d5dde6; font-size:16px; margin-bottom:12px; }
+  h2 { margin:6px 0 10px; font-size:19px; } h3 { margin:0 0 4px; font-size:16px; }
+  .back { background:none; border:0; color:var(--sky); font-size:15px; padding:0 0 10px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="row"><h1>¡Che, Argentina! 🇦🇷</h1><div class="users" id="users"></div></div>
+  <nav><button data-tab="lessons">Lessons</button><button data-tab="cheat">Cheat sheet</button></nav>
+</header>
+<main id="app"></main>
+<script src="content.js"></script>
+<script>
+const USERS = ["Sawyer", "Hannah"];
+const $ = (h) => { const d = document.createElement("div"); d.innerHTML = h; return d; };
+const app = document.getElementById("app");
+let user = localStorage.getItem("user") || USERS[0];
+let tab = "lessons";
+const key = () => "progress:" + user;
+const prog = () => JSON.parse(localStorage.getItem(key()) || "{}");
+const saveProg = (p) => localStorage.setItem(key(), JSON.stringify(p));
+
+// Speech: prefer Argentine voice, then any Spanish voice
+let voice = null;
+function pickVoice() {
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v => v.lang === "es-AR") || vs.find(v => v.lang === "es-US") || vs.find(v => v.lang === "es-MX") || vs.find(v => v.lang.startsWith("es")) || null;
+}
+if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function say(text) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace(/[…—]/g, " "));
+  u.lang = voice ? voice.lang : "es-AR"; if (voice) u.voice = voice; u.rate = 0.85;
+  speechSynthesis.speak(u);
+}
+const esc = (s) => s.replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const phraseRow = ([es, en, pr]) => `<div class="phrase" data-say="${esc(es)}"><div><div class="es">${es}</div><div class="en">${en}</div><div class="pr">${pr}</div></div><div class="spk">🔊</div></div>`;
+function bindSay(root) { root.querySelectorAll("[data-say]").forEach(el => el.onclick = () => say(el.dataset.say)); }
+
+function renderHeader() {
+  document.getElementById("users").innerHTML = USERS.map(u => `<button class="${u === user ? "on" : ""}" data-u="${u}">${u}</button>`).join("");
+  document.querySelectorAll("[data-u]").forEach(b => b.onclick = () => { user = b.dataset.u; localStorage.setItem("user", user); render(); });
+  document.querySelectorAll("nav button").forEach(b => { b.classList.toggle("on", b.dataset.tab === tab); b.onclick = () => { tab = b.dataset.tab; render(); }; });
+}
+
+function render() {
+  renderHeader(); window.scrollTo(0, 0);
+  tab === "lessons" ? renderList() : renderCheat();
+}
+
+function renderList() {
+  const p = prog();
+  const done = COURSE.filter(d => p[d.day]).length;
+  const next = COURSE.find(d => !p[d.day]);
+  app.innerHTML = `<div class="card"><h3>Hola, ${user}! 👋</h3><div class="badge">${done} of ${COURSE.length} days done${next ? ` · Up next: Day ${next.day}` : " · ¡Listo! 🎉"}</div></div>` +
+    COURSE.map(d => `<div class="card day ${p[d.day] ? "done" : ""}" data-day="${d.day}"><div><div class="badge">Day ${d.day} · ${d.place}</div><h3>${d.title}</h3></div><div>${p[d.day] ? "✅" : "›"}</div></div>`).join("");
+  app.querySelectorAll("[data-day]").forEach(el => el.onclick = () => lesson(+el.dataset.day));
+}
+
+// Lesson flow: 1 phrases → 2 flashcards → 3 conversation → done
+function lesson(n) {
+  const d = COURSE.find(x => x.day === n);
+  const steps = (i) => `<div class="steps">${[0,1,2].map(k => `<span class="${k <= i ? "on" : ""}"></span>`).join("")}</div>`;
+  const top = (i) => `<button class="back" id="back">‹ All days</button>${steps(i)}<div class="badge">Day ${d.day} · ${d.place}</div><h2>${d.title}</h2>`;
+  const wireBack = () => app.querySelector("#back").onclick = render;
+
+  function phrases() {
+    app.innerHTML = top(0) + `<div class="card tip">💡 ${d.tip}</div><div class="card">${d.phrases.map(phraseRow).join("")}</div><button class="btn" id="go">Next: flashcards →</button>`;
+    wireBack(); bindSay(app); app.querySelector("#go").onclick = flash;
+  }
+
+  function flash() {
+    let queue = d.phrases.map((_, i) => i).sort(() => Math.random() - 0.5);
+    let shown = false, misses = 0;
+    const draw = () => {
+      if (!queue.length) return convo();
+      const [es, en, pr] = d.phrases[queue[0]];
+      app.innerHTML = top(1) + `<div class="badge">${queue.length} left — say it out loud before flipping</div>
+        <div class="card flash"><div class="en" style="font-size:18px">${en}</div>${shown ? `<div class="es" style="margin-top:14px">${es}</div><div class="pr">${pr}</div>` : ""}</div>` +
+        (shown ? `<button class="btn ok" id="ok">Got it ✓</button><button class="btn bad" id="again">Again ↺</button>` : `<button class="btn" id="flip">Show Spanish</button>`) +
+        `<button class="btn alt" id="skip">Skip to conversation →</button>`;
+      wireBack();
+      app.querySelector("#skip").onclick = convo;
+      if (!shown) app.querySelector("#flip").onclick = () => { shown = true; say(es); draw(); };
+      else {
+        app.querySelector("#ok").onclick = () => { queue.shift(); shown = false; draw(); };
+        // Missed cards go back 3 spots so they reappear soon
+        app.querySelector("#again").onclick = () => { const c = queue.shift(); queue.splice(Math.min(3, queue.length), 0, c); misses++; shown = false; draw(); };
+      }
+    };
+    draw();
+  }
+
+  function convo() {
+    let i = 0;
+    const draw = () => {
+      if (i >= d.dialogue.length) return finish();
+      const q = d.dialogue[i];
+      app.innerHTML = top(2) + `<div class="badge">Conversation ${i + 1} of ${d.dialogue.length} — pick the best reply</div>
+        <div class="card"><div class="badge">They say:</div><div class="they es" data-say="${esc(q.they)}">🔊 ${q.they}</div>
+        ${q.options.map((o, k) => `<button class="opt" data-k="${k}">${o}</button>`).join("")}<div id="fb"></div></div>`;
+      wireBack(); bindSay(app); say(q.they);
+      app.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+        const k = +b.dataset.k;
+        if (k === q.answer) {
+          b.classList.add("right"); say(q.options[k]);
+          app.querySelector("#fb").innerHTML = (q.note ? `<div class="note">📝 ${q.note}</div>` : "") + `<button class="btn" id="nx">Next →</button>`;
+          app.querySelectorAll(".opt").forEach(x => x.disabled = true);
+          app.querySelector("#nx").onclick = () => { i++; draw(); };
+        } else b.classList.add("wrong");
+      });
+    };
+    draw();
+  }
+
+  function finish() {
+    const p = prog(); p[d.day] = new Date().toISOString().slice(0, 10); saveProg(p);
+    const next = COURSE.find(x => x.day === n + 1);
+    app.innerHTML = `<div class="card" style="text-align:center;padding:30px"><div style="font-size:48px">🎉</div><h2>¡Muy bien, ${user}!</h2><div class="badge">Day ${d.day} complete</div></div>` +
+      (next ? `<button class="btn" id="nxt">Day ${next.day}: ${next.title} →</button>` : "") + `<button class="btn alt" id="home">All days</button>`;
+    app.querySelector("#home").onclick = render;
+    if (next) app.querySelector("#nxt").onclick = () => lesson(next.day);
+  }
+
+  phrases();
+}
+
+function renderCheat() {
+  app.innerHTML = `<input type="search" id="q" placeholder="Search English or Spanish…"><div id="list"></div>`;
+  const list = app.querySelector("#list");
+  const draw = (q = "") => {
+    q = q.toLowerCase();
+    list.innerHTML = COURSE.map(d => {
+      const ps = d.phrases.filter(p => !q || (p[0] + " " + p[1]).toLowerCase().includes(q));
+      return ps.length ? `<div class="card"><h3>${d.title}</h3><div class="badge">${d.place}</div>${ps.map(phraseRow).join("")}</div>` : "";
+    }).join("") || `<div class="badge">No matches</div>`;
+    bindSay(list);
+  };
+  app.querySelector("#q").oninput = (e) => draw(e.target.value);
+  draw();
+}
+
+render();
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+</script>
+</body>
+</html>
