@@ -1,9 +1,9 @@
 {
-  "name": "¡Che, Argentina!",
+  "name": "¡Nos vamos!",
   "short_name": "Che",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f5f8fb",
-  "theme_color": "#1B2340",
+  "background_color": "#FBF3E1",
+  "theme_color": "#FBF3E1",
   "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }]
 }
